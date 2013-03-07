@@ -27,10 +27,13 @@ public class SnomProvider extends Provider {
 
     @Override
     public String getContent(String target,String source, String data) {
-        //System.out.println("SnomProvider.getContent( action: "+action+", data: "+data+" )");
+        System.out.println("SnomProvider.getContent( target: "+target+", action: "+source+", data: "+data+" )");
         if (source.equals("incoming_call") && this.getControler(target)!=null) {
             this.getControler(target).showUrl("http://".concat(phoneproxy.PhoneProxy.getServer().getAddressString()).concat("/foobar"));
-            return "";
+//            return ""
+            return Provider.marshal(new SnomIPPhoneText("URL pushed to ".concat(target), "http://".concat(phoneproxy.PhoneProxy.getServer().getAddressString()).concat("/active_call_info")));
+        } else if (source.equals("active_call_info")) {
+            return Provider.marshal(new SnomIPPhoneText("Aktueller Anruf", "Im Moment ist kein Anruf aktiv"));
         } else if (this.sources.containsKey(source)) {
             XmlDocument out = this.sources.get(source).request(data);
             return Provider.marshal(out);

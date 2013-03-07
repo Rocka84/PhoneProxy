@@ -24,6 +24,7 @@ public abstract class Provider {
 
     public Provider() {
         this.sources=new HashMap<String, DataSource>();
+        this.controlers=new HashMap<String, Controler>();
     }
     
     public Provider(DataSource source) {

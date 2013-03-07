@@ -11,6 +11,7 @@ import javax.xml.bind.Marshaller;
 import phoneproxy.gui.GUI;
 import phoneproxy.providers.SnomProvider;
 import phoneproxy.server.Server;
+import phoneproxy.sources.ActiveCallSource;
 import phoneproxy.sources.BlauDataSource;
 import phoneproxy.sources.CSVDataSource;
 import phoneproxy.xml.mapper.BlauToSnomMapper;
@@ -18,7 +19,7 @@ import phoneproxy.xml.mapper.CSVToSnomMapper;
 import phoneproxy.xml.snom.*;
 
 /**
- *
+ * Main Controller
  * @author Fabian Dillmeier <fabian at dillmeier.de>
  */
 public class PhoneProxy {
@@ -40,6 +41,7 @@ public class PhoneProxy {
 
             PhoneProxy.server.getProvider().addSource("blau", new BlauToSnomMapper(new BlauDataSource()));
             PhoneProxy.server.getProvider().addSource("csv", new CSVToSnomMapper(new CSVDataSource("blau_data.csv")));
+            PhoneProxy.server.getProvider().addSource("call", new ActiveCallSource());
             
             logger.log(Level.INFO, "Server created");
         } catch (Exception ex) {
@@ -48,6 +50,11 @@ public class PhoneProxy {
 
         
         new GUI();
+        
+        /* Quick'n'Dirty */
+        if (args.length>0 && args[0].equals("-startserver")){
+            PhoneProxy.server.startServer();
+        }
     }
 
     private static void initLogger(Level loglevel) {

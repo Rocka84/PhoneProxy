@@ -56,6 +56,7 @@ public class Server extends Observable {
 
     public Server(Provider contentProvider, int port, boolean autorun) {       
         try {
+            //@TODO Geht das ermitteln der Adresse auch einfacher?
             this.address = null;
             Enumeration ifaces = NetworkInterface.getNetworkInterfaces();
             for (Object iface : Collections.list(ifaces)) {
