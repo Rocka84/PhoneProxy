@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.*;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -136,7 +137,7 @@ public class Server extends Observable {
     }
 
     public String getAddressString() {
-        return this.address.getHostAddress().concat(":").concat(String.valueOf(this.port));
+        return "http://".concat(this.address.getHostAddress()).concat(":").concat(String.valueOf(this.port));
     }
 
     public boolean isRunning() {
@@ -176,6 +177,21 @@ public class Server extends Observable {
 
     public static Logger getLogger() {
         return logger;
+    }
+    
+    public static HashMap<String, String> splitData(String data){
+        String[] data_parts = data.split("&");
+        HashMap<String, String> args = new HashMap<String, String>();
+        for (int i = 0; i < data_parts.length; i++) {
+            String[] arg_parts = data_parts[i].split("=");
+            if (arg_parts.length == 2) {
+                args.put(arg_parts[0], arg_parts[1]);
+            }
+            if (arg_parts.length == 1) {
+                args.put(arg_parts[0], "");
+            }
+        }
+        return args;
     }
 
     private class Worker implements Runnable {

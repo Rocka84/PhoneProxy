@@ -12,6 +12,8 @@ public interface Controler {
     public void showUrl(String url);
 
     public void dial(String sip_id);
+    
+    public void hangUp();
 
     public void keyStroke(String key);
 

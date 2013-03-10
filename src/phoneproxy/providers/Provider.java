@@ -69,6 +69,7 @@ public abstract class Provider {
             context = JAXBContext.newInstance(document.getClass());
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.setProperty("com.sun.xml.internal.bind.xmlHeaders","<?xml-stylesheet type=\"text/xsl\" href=\"SnomIPPhone.xsl\" ?>\n");
             StringWriter w = new StringWriter();
             m.marshal(document, w);
 

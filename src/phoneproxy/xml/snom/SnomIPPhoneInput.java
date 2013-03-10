@@ -62,6 +62,10 @@ public class SnomIPPhoneInput
         this.inputItem = value;
     }
 
+    public void setInputItem(String displayName, String queryStringParam, String defaultValue, String inputFlags) {
+        this.inputItem = new InputItem(displayName, queryStringParam, defaultValue, inputFlags);
+    }
+
 
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -81,6 +85,16 @@ public class SnomIPPhoneInput
         @XmlElement(name = "InputFlags", required = true)
         protected String inputFlags;
 
+        public InputItem() {
+        }
+
+        public InputItem(String displayName, String queryStringParam, String defaultValue, String inputFlags) {
+            this.displayName = displayName;
+            this.queryStringParam = queryStringParam;
+            this.defaultValue = defaultValue;
+            this.inputFlags = inputFlags;
+        }
+        
         public String getDisplayName() {
             return displayName;
         }

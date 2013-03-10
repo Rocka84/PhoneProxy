@@ -142,7 +142,7 @@ public class GUI extends JFrame implements ActionListener {
             }
             
         } else if (cmd.equals("btn_csv")) {
-            PhoneProxy.getServer().getProvider().getControler("").showUrl("http://".concat(PhoneProxy.getServer().getAddressString()).concat("/csv"));
+            PhoneProxy.getServer().getProvider().getControler("").showUrl(PhoneProxy.getServer().getAddressString().concat("/csv"));
         } else if (cmd.equals("btn_dial")) {
             PhoneProxy.getServer().getProvider().getControler("").dial("017660999515");
             

@@ -37,6 +37,7 @@ public class BlauToSnomMapper extends Mapper {
          */
 
         out = new SnomIPPhoneText("BlauToSnomMapper", "data: " + data);
+        out.addSoftKeyItem("index","Index", phoneproxy.PhoneProxy.getServer().getAddressString().concat("/"));
 
         return out;
     }

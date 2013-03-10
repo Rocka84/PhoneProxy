@@ -32,9 +32,15 @@ public class SnomControler implements Controler {
     @Override
     public void dial(String sip_id) {
         logger.log(Level.INFO,"Dialing: ".concat(sip_id));
-        SnomControler.sendHttpRequest("http://"+this.getTarget()+"/command.htm?dial="+sip_id);
+        SnomControler.sendHttpRequest("http://".concat(this.getTarget()).concat("/command.htm?number=").concat(sip_id));
     }
 
+    @Override
+    public void hangUp() {
+        logger.log(Level.INFO,"Hanging Up");
+        SnomControler.sendHttpRequest("http://".concat(this.getTarget()).concat("/command.htm?RELEASE_ALL_CALLS"));
+    }
+    
     @Override
     public void keyStroke(String key) {
         logger.log(Level.INFO,"Sending Key: ".concat(key));
@@ -44,7 +50,7 @@ public class SnomControler implements Controler {
     @Override
     public void sendDtmfTones(String tones) {
         logger.log(Level.INFO,"Sending dtmf tones: ".concat(tones));
-        SnomControler.sendHttpRequest("http://"+this.getTarget()+"/command.htm?dtmf="+tones);
+        SnomControler.sendHttpRequest("http://"+this.getTarget()+"/command.htm?key_dtmf="+tones);
     }
 
     public static void sendHttpRequest(String url) {

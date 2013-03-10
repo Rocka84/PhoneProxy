@@ -14,6 +14,7 @@ import phoneproxy.server.Server;
 import phoneproxy.sources.ActiveCallSource;
 import phoneproxy.sources.BlauDataSource;
 import phoneproxy.sources.CSVDataSource;
+import phoneproxy.sources.MenuSource;
 import phoneproxy.xml.mapper.BlauToSnomMapper;
 import phoneproxy.xml.mapper.CSVToSnomMapper;
 import phoneproxy.xml.snom.*;
@@ -39,6 +40,7 @@ public class PhoneProxy {
         try {
             PhoneProxy.server = new Server(new SnomProvider());
 
+            PhoneProxy.server.getProvider().addSource("", new MenuSource());
             PhoneProxy.server.getProvider().addSource("blau", new BlauToSnomMapper(new BlauDataSource()));
             PhoneProxy.server.getProvider().addSource("csv", new CSVToSnomMapper(new CSVDataSource("blau_data.csv")));
             PhoneProxy.server.getProvider().addSource("call", new ActiveCallSource());
@@ -49,11 +51,12 @@ public class PhoneProxy {
         }
 
         
-        new GUI();
-        
         /* Quick'n'Dirty */
-        if (args.length>0 && args[0].equals("-startserver")){
+        if (args.length>0 && args[0].equals("-nogui")){
+            logger.log(Level.INFO, "No GUI mode");
             PhoneProxy.server.startServer();
+        }else{
+            new GUI();
         }
     }
 
@@ -93,7 +96,7 @@ public class PhoneProxy {
 
         ((SnomIPPhoneText) elem).setTitle("Hello World!");
         ((SnomIPPhoneText) elem).setText("Dies ist ein Text-Element.");
-        elem.setFetch("http://".concat(server.getAddressString()).concat("/asdf/"), 3000);
+        elem.setFetch(server.getAddressString().concat("/asdf/"), 3000);
 
         dumpJAXB(elem);
 

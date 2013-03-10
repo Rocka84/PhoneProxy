@@ -81,12 +81,19 @@ public class CSVDataSource implements DataSource {
     public XmlDocument request(String data) {
         //System.out.println("csv request; action: "+action+" data: "+data);
         SnomDocument out;
+        data=data.replaceFirst("param=", "");
         out = new SnomIPPhoneDirectory("Suche " + data);
+        out.addSoftKeyItem("index","Index", phoneproxy.PhoneProxy.getServer().getAddressString().concat("/"));
+        out.addSoftKeyItem("csv_menu","CSV Menü", phoneproxy.PhoneProxy.getServer().getAddressString().concat("/?menu=csv"));
+        out.addSoftKeyItem("csv_suche","Suche", phoneproxy.PhoneProxy.getServer().getAddressString().concat("/?menu=csv_suche"));
+        if (!data.isEmpty()){
+            out.addSoftKeyItem("taste1", "Alles", phoneproxy.PhoneProxy.getServer().getAddressString().concat("/csv"));
+        }
         if (this.data != null && this.data.size() > 0) {
             for (int i = 0; i < this.data.size(); i++) {
                 for (int j = 0; j < this.data.get(i).length; j++) {
                     if (this.data.get(i)[j].contains(data)) {
-                        String name = this.data.get(i)[this.col_name] + ((this.col_firstname<0 || this.data.get(i)[this.col_firstname].isEmpty()) ? "" : ", " + this.data.get(i)[this.col_firstname]);
+                        String name = this.data.get(i)[this.col_name].concat(((this.col_firstname<0 || this.data.get(i)[this.col_firstname].isEmpty()) ? "" : ", ".concat(this.data.get(i)[this.col_firstname])));
                         if (!this.data.get(i)[this.col_phone_privat].isEmpty()) {
                             ((SnomIPPhoneDirectory) out).addDirectoryEntry(name + " (privat)", this.data.get(i)[this.col_phone_privat]);
                         }
